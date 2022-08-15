@@ -1,0 +1,88 @@
+---
+title: "Lista 3 - Quantidade de partidos nos gabinetes do Brasil e da Argentina"
+author: "Igor Brito"
+date: "2022-08-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Procedimentos iniciais para configurar o R
+# Esse chunk não irá aparecer no slide por não ser um resultado da análise
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Limpa memória
+rm(list = ls())
+gc()
+
+# Definindo o diretorio de trabalho como do arquivo local
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+# Carrega pacotes usados no código
+library(readxl)
+library(tidyverse)
+library(magrittr)
+
+```
+
+
+## Contextualização
+
+- Esta apresentação é parte da pesquisa da minha pesquisa de mestrado acerca do tamanho de centro presidencial na América Latina.
+
+- O Paulo Bijos (mat. 21/0005416) irá trabalhar com os dados do tamanho do centro presidencial e eu irei trabalhar com os dados da quantidade de partidos nos gabinetes (uma das principais explicações apontadas pela literatura).
+
+## Centro presidencial e gabinetes de coalizão
+Gabinete de coalizão -> 
+
+Divergência de preferências entre o presidente e os ministros -> 
+
+Risco de agência (ministros perseguindo agendas próprias) -> 
+
+Expansão do centro presidencial (presidente tem incentivos para aumentar seu controle sobre a arena ministerial)
+
+## Os dados de gabinetes de coalizão do Brasil e da Argentina
+
+- Os dados utilizados nesta apresentação foram coletados nos arquivos de replicação do artigo *The Institutional Presidency from a Comparative Perspective: Argentina and Brazil since the 1980s* (INÁCIO; LLANOS, 2015) disponíveis no site <https://brazilianpoliticalsciencereview.org/>.
+
+- A variável de interesse aqui é *cabpart* que registra a quantidade de partidos da coalizão nos gabinetes argentinos (1984-2010) e brasileiros (1985-2010) em cada ano.
+
+
+```{r carrega_dados, include=FALSE}
+# Esse chunk não irá aparecer no slide por não ser um resultado da análise
+
+# Os dados já foram baixados e estão no mesmo diretório do arquivo R markdown
+# Desta forma, basta carregá-los
+dados_gabinetes <- read_xlsx("dados/INACIO_LLANOS_DATABASE.xlsx")
+
+# Os países estão identificados por número (Argentina: country = 0; Brasil: country = 1)
+# Portanto, é necessário fazer manipulações nos dados para substitui o número pelo
+# nome dos países
+dados_gabinetes %<>% 
+  mutate(country = case_when(
+    country == 0 ~ "Argentina",
+    country == 1 ~ "Brazil"
+  ))
+
+```
+
+## Quantidade de partidos nos gabinetes
+
+```{r grafico, echo = FALSE, fig.width = 10}
+# Irá aparecer no slide apenas o gráfico (resultado da análise)
+# A opção "fig.width = 10" foi utilizada para ajustar o tamanho da figura no slide
+
+# Como se busca representar a quatidade de partidos no tempo, para a Argentina e o Brasil
+# optei por usar um gráfico de linha. Ambos os países estão incluídos no mesmo gráfico
+# para facilitar a comparação, sendo cada país representado por uma cor diferente.
+# Foram ajustadas as escalas para torná-las mais condizentes com os dados. Foi utilizada
+# a escala de cores para representar a Argentina (azul) e o Brasil (verde).
+# Foi utilizado o tema minimalista.
+
+ggplot(data = dados_gabinetes, mapping = aes(x = years, y = cabpart)) + 
+  geom_line(mapping = aes(color = country)) +
+  scale_x_continuous(breaks = seq(1985, 2010, by = 5), minor_breaks = NULL) +
+  scale_y_continuous(breaks = seq(0, 12, by = 2)) +
+  theme_minimal()
+
+```
