@@ -30,7 +30,7 @@ library(magrittr)
 
 - Esta apresentação é parte da pesquisa da minha pesquisa de mestrado acerca do tamanho de centro presidencial na América Latina.
 
-- O Paulo Bijos (mat. 21/0005416) irá trabalhar com os dados do tamanho do centro presidencial e eu irei trabalhar com os dados da quantidade de partidos nos gabinetes (uma das principais explicações apontadas pela literatura).
+- O outro colega irá trabalhar com os dados do tamanho do centro presidencial e eu irei trabalhar com os dados da quantidade de partidos nos gabinetes (uma das principais explicações apontadas pela literatura).
 
 ## Centro presidencial e gabinetes de coalizão
 Gabinete de coalizão -> 
